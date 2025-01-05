@@ -28,6 +28,7 @@
 #include "PAD/Host/Device.h"
 #include "PAD/Host/InputManager.h"
 #include "PAD/Host/Config.h"
+#include "PAD/Host/SDLJoystick.h"
 
 #ifdef SDL_BUILD
 #include <SDL.h>
@@ -39,6 +40,8 @@ const u32 build = 0; // increase that with each version
 
 PADconf g_conf;
 KeyStatus g_key_status;
+JoystickInfo* g_haptic_android = nullptr;
+bool g_forcefeedback = false;
 
 s32 PADinit()
 {
@@ -46,14 +49,21 @@ s32 PADinit()
 
 	query.reset();
 
-	for (int port = 0; port < 2; port++)
-		slots[port] = 0;
+	for (int & slot : slots) {
+        slot = 0;
+    }
+
+	PADshutdown();
 
 	return 0;
 }
 
 void PADshutdown()
 {
+	if(g_haptic_android != nullptr) {
+		delete g_haptic_android;
+		g_haptic_android = nullptr;
+	}
 }
 
 s32 PADopen(const WindowInfo& wi)
@@ -82,24 +92,26 @@ s32 PADsetSlot(u8 port, u8 slot)
 	return 1;
 }
 
-s32 PADfreeze(FreezeAction mode, freezeData* data)
+s32 PADfreeze(FreezeAction p_mode, freezeData* p_data)
 {
-	if (!data)
+	if (!p_data) {
 		return -1;
-
-	if (mode == FreezeAction::Size)
-	{
-		data->size = sizeof(PadFullFreezeData);
 	}
-	else if (mode == FreezeAction::Load)
+
+	if (p_mode == FreezeAction::Size)
 	{
-		PadFullFreezeData* pdata = (PadFullFreezeData*)(data->data);
+		p_data->size = sizeof(PadFullFreezeData);
+	}
+	else if (p_mode == FreezeAction::Load)
+	{
+		auto* pdata = (PadFullFreezeData*)(p_data->data);
 
 		Pad::stop_vibrate_all();
 
-		if (data->size != sizeof(PadFullFreezeData) || pdata->version != PAD_SAVE_STATE_VERSION ||
-			strncmp(pdata->format, "LinPad", sizeof(pdata->format)))
+		if (p_data->size != sizeof(PadFullFreezeData) || pdata->version != PAD_SAVE_STATE_VERSION ||
+			strncmp(pdata->format, "LinPad", sizeof(pdata->format))) {
 			return 0;
+		}
 
 		query = pdata->query;
 		if (pdata->query.slot < 4)
@@ -109,43 +121,40 @@ s32 PADfreeze(FreezeAction mode, freezeData* data)
 
 		// Tales of the Abyss - pad fix
 		// - restore data for both ports
-		for (int port = 0; port < 2; port++)
-		{
-			for (int slot = 0; slot < 4; slot++)
-			{
+		for (int port = 0; port < 2; ++port) {
+			for (int slot = 0; slot < 4; ++slot) {
 				u8 mode = pdata->padData[port][slot].mode;
 
-				if (mode != MODE_DIGITAL && mode != MODE_ANALOG && mode != MODE_DS2_NATIVE)
-				{
+				if (mode != MODE_DIGITAL && mode != MODE_ANALOG && mode != MODE_DS2_NATIVE) {
 					break;
 				}
 
 				memcpy(&pads[port][slot], &pdata->padData[port][slot], sizeof(PadFreezeData));
 			}
 
-			if (pdata->slot[port] < 4)
+			if (pdata->slot[port] < 4) {
 				slots[port] = pdata->slot[port];
+			}
 		}
 	}
-	else if (mode == FreezeAction::Save)
+	else if (p_mode == FreezeAction::Save)
 	{
-		if (data->size != sizeof(PadFullFreezeData))
+		if (p_data->size != sizeof(PadFullFreezeData)) {
 			return 0;
+		}
 
-		PadFullFreezeData* pdata = (PadFullFreezeData*)(data->data);
+		auto* pdata = (PadFullFreezeData*)(p_data->data);
 
 		// Tales of the Abyss - pad fix
 		// - PCSX2 only saves port0 (save #1), then port1 (save #2)
 
-		memset(pdata, 0, data->size);
+		memset(pdata, 0, p_data->size);
 		strncpy(pdata->format, "LinPad", sizeof(pdata->format));
 		pdata->version = PAD_SAVE_STATE_VERSION;
 		pdata->query = query;
 
-		for (int port = 0; port < 2; port++)
-		{
-			for (int slot = 0; slot < 4; slot++)
-			{
+		for (int port = 0; port < 2; ++port) {
+			for (int slot = 0; slot < 4; ++slot) {
 				pdata->padData[port][slot] = pads[port][slot];
 			}
 
@@ -193,30 +202,30 @@ void PAD::PollDevices()
 }
 
 /// g_key_status.press but with proper handling for analog buttons
-static void PressButton(u32 pad, u32 button)
+static void PressButton(u32 p_pad, u32 p_button, u32 p_range)
 {
 	// Analog controls.
-	if (IsAnalogKey(button))
+	if (IsAnalogKey(p_button))
 	{
-		switch (button)
+		switch (p_button)
 		{
 			case PAD_R_LEFT:
 			case PAD_R_UP:
 			case PAD_L_LEFT:
 			case PAD_L_UP:
-				g_key_status.press(pad, button, -MAX_ANALOG_VALUE);
+				g_key_status.press(p_pad, p_button, -p_range);
 				break;
 			case PAD_R_RIGHT:
 			case PAD_R_DOWN:
 			case PAD_L_RIGHT:
 			case PAD_L_DOWN:
-				g_key_status.press(pad, button, MAX_ANALOG_VALUE);
+				g_key_status.press(p_pad, p_button, p_range);
 				break;
 		}
 	}
 	else
 	{
-		g_key_status.press(pad, button);
+		g_key_status.press(p_pad, p_button);
 	}
 }
 
@@ -229,25 +238,34 @@ bool PAD::HandleHostInputEvent(const HostKeyEvent& event)
 		{
 			bool result = false;
 
-			for (u32 cpad = 0; cpad < GAMEPAD_NUMBER; cpad++)
-			{
+			for (u32 cpad = 0; cpad < GAMEPAD_NUMBER; ++cpad) {
 				const int button_index = get_keyboard_key(cpad, event.key);
-				if (button_index < 0)
+				if (button_index < 0) {
 					continue;
+				}
 
 				g_key_status.keyboard_state_acces(cpad);
-				if (event.type == HostKeyEvent::Type::KeyPressed)
-					PressButton(cpad, button_index);
-				else
+				if (event.type == HostKeyEvent::Type::KeyPressed) {
+					PressButton(cpad, button_index, event.range);
+				} else {
 					g_key_status.release(cpad, button_index);
+				}
 			}
 
 			return result;
 		}
-		break;
 
-		default:
+		default: {
 			return false;
+		}
+	}
+}
+
+void PAD::SetVibration(bool p_isvalue)
+{
+	g_forcefeedback = p_isvalue;
+	for (auto & pad_option : g_conf.pad_options){
+		pad_option.forcefeedback = g_forcefeedback;
 	}
 }
 
@@ -256,26 +274,36 @@ void PAD::LoadConfig(const SettingsInterface& si)
 	g_conf.init();
 
 	// load keyboard bindings
-	for (u32 pad = 0; pad < GAMEPAD_NUMBER; pad++)
-	{
+	for (u32 pad = 0; pad < GAMEPAD_NUMBER; ++pad)
+    {
+        set_keyboard_key(pad, 104, PAD_L2);
+        set_keyboard_key(pad, 105, PAD_R2);
+        set_keyboard_key(pad, 102, PAD_L1);
+        set_keyboard_key(pad, 103, PAD_R1);
+        set_keyboard_key(pad, 100, PAD_TRIANGLE);
+        set_keyboard_key(pad, 97, PAD_CIRCLE);
+        set_keyboard_key(pad, 96, PAD_CROSS);
+        set_keyboard_key(pad, 99, PAD_SQUARE);
+        set_keyboard_key(pad, 109, PAD_SELECT);
+        set_keyboard_key(pad, 106, PAD_L3);
+        set_keyboard_key(pad, 107, PAD_R3);
+        set_keyboard_key(pad, 108, PAD_START);
+        set_keyboard_key(pad, 19, PAD_UP);
+        set_keyboard_key(pad, 22, PAD_RIGHT);
+        set_keyboard_key(pad, 20, PAD_DOWN);
+        set_keyboard_key(pad, 21, PAD_LEFT);
+        set_keyboard_key(pad, 110, PAD_L_UP);
+        set_keyboard_key(pad, 111, PAD_L_RIGHT);
+        set_keyboard_key(pad, 112, PAD_L_DOWN);
+        set_keyboard_key(pad, 113, PAD_L_LEFT);
+        set_keyboard_key(pad, 120, PAD_R_UP);
+        set_keyboard_key(pad, 121, PAD_R_RIGHT);
+        set_keyboard_key(pad, 122, PAD_R_DOWN);
+        set_keyboard_key(pad, 123, PAD_R_LEFT);
+
 		const std::string section(StringUtil::StdStringFromFormat("Pad%u", pad));
-		std::string value;
-
-		for (u32 button = 0; button < MAX_KEYS; button++)
-		{
-			const std::string config_key(StringUtil::StdStringFromFormat("Button%u", button));
-			if (!si.GetStringValue(section.c_str(), config_key.c_str(), &value) || value.empty())
-				continue;
-
-			std::optional<u32> code = Host::ConvertKeyStringToCode(value);
-			if (!code.has_value())
-				continue;
-
-			set_keyboard_key(pad, code.value(), static_cast<int>(button));
-		}
-
 		g_conf.set_joy_uid(pad, si.GetUIntValue(section.c_str(), "JoystickUID", 0u));
-		g_conf.pad_options[pad].forcefeedback = si.GetBoolValue(section.c_str(), "ForceFeedback", true);
+		g_conf.pad_options[pad].forcefeedback = g_forcefeedback; //si.GetBoolValue(section.c_str(), "ForceFeedback", true);
 		g_conf.pad_options[pad].reverse_lx = si.GetBoolValue(section.c_str(), "ReverseLX", false);
 		g_conf.pad_options[pad].reverse_ly = si.GetBoolValue(section.c_str(), "ReverseLY", false);
 		g_conf.pad_options[pad].reverse_rx = si.GetBoolValue(section.c_str(), "ReverseRX", false);

@@ -34,46 +34,65 @@ void JoystickInfo::EnumerateJoysticks(std::vector<std::unique_ptr<Device>>& vjoy
 		// Tell SDL to catch event even if the windows isn't focussed
 		SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
 
-		if (SDL_Init(flag) < 0)
-			return;
+		if (SDL_Init(flag) < 0) {
+            return;
+        }
 
 		SDL_JoystickEventState(SDL_QUERY);
 		SDL_GameControllerEventState(SDL_QUERY);
 		SDL_EventState(SDL_CONTROLLERDEVICEADDED, SDL_ENABLE);
 		SDL_EventState(SDL_CONTROLLERDEVICEREMOVED, SDL_ENABLE);
-
 		{
 			const std::optional<std::vector<u8>> db(Host::ReadResourceFile("gamecontrollerdb.txt"));
 			if (db.has_value())
 			{
 				SDL_RWops* ops = SDL_RWFromConstMem(db->data(), db->size());
-				if (ops)
-					SDL_GameControllerAddMappingsFromRW(ops, 1);
+				if (ops) {
+                    SDL_GameControllerAddMappingsFromRW(ops, 1);
+                }
 			}
 		}
 	}
 
+    ////== Clear
+    if(g_haptic_android != nullptr) {
+        delete g_haptic_android;
+        g_haptic_android = nullptr;
+    }
+    ////
 	vjoysticks.clear();
+    ////== Clear
 
-	for (int i = 0; i < SDL_NumJoysticks(); ++i)
-	{
-		vjoysticks.push_back(std::unique_ptr<Device>(new JoystickInfo(i)));
-		// Something goes wrong in the init, let's drop it
-		if (!vjoysticks.back()->IsProperlyInitialized())
-			vjoysticks.pop_back();
-	}
+    int numJoysticks = SDL_NumJoysticks();
+    if(numJoysticks > 0)
+    {
+        for (int i = 0; i < numJoysticks; ++i) {
+            vjoysticks.push_back(std::unique_ptr<Device>(new JoystickInfo(i)));
+            // Something goes wrong in the init, let's drop it
+            if (!vjoysticks.back()->IsProperlyInitialized())
+                vjoysticks.pop_back();
+        }
+    }
+    else {
+        if(g_haptic_android == nullptr) {
+            g_haptic_android = new JoystickInfo();
+        }
+    }
 }
 
 void JoystickInfo::Rumble(unsigned type, unsigned pad)
 {
-	if (type >= m_effects_id.size())
+	if (type >= m_effects_id.size()) {
 		return;
+	}
 
-	if (!(g_conf.pad_options[pad].forcefeedback))
+	if (!(g_conf.pad_options[pad].forcefeedback)) {
 		return;
+	}
 
-	if (m_haptic == nullptr)
+	if (m_haptic == nullptr) {
 		return;
+	}
 
 	int id = m_effects_id[type];
 	if (SDL_HapticRunEffect(m_haptic, id, 1) != 0)
@@ -89,8 +108,9 @@ JoystickInfo::~JoystickInfo()
 	{
 		for (const auto& eid : m_effects_id)
 		{
-			if (eid >= 0)
-				SDL_HapticDestroyEffect(m_haptic, eid);
+			if (eid >= 0) {
+                SDL_HapticDestroyEffect(m_haptic, eid);
+            }
 		}
 
 		SDL_HapticClose(m_haptic);
@@ -104,6 +124,34 @@ JoystickInfo::~JoystickInfo()
 		SDL_GameControllerClose(m_controller);
 #endif
 	}
+}
+
+JoystickInfo::JoystickInfo()
+		: Device()
+		, m_controller(nullptr)
+		, m_haptic(nullptr)
+		, m_unique_id(0)
+{
+    m_effects_id.fill(0);
+
+	// Android
+    SDL_HapticEffect effect;
+    memset(&effect, 0, sizeof(SDL_HapticEffect)); // 0 is safe default
+    effect.type = SDL_HAPTIC_LEFTRIGHT;
+    effect.leftright.length = 125;
+	effect.leftright.large_magnitude = 0x4000;
+	effect.leftright.small_magnitude = 0x4000;
+
+    // Haptic Open
+	m_haptic = SDL_HapticOpen(0);
+    if(m_haptic != nullptr) {
+        int eid = SDL_HapticNewEffect(m_haptic, &effect);
+        if (eid < 0) {
+            fprintf(stderr, "ERROR: Effect is not uploaded! %s\n", SDL_GetError());
+            m_haptic = nullptr;
+        }
+        m_no_error = true;
+    }
 }
 
 JoystickInfo::JoystickInfo(int id)
@@ -181,7 +229,7 @@ JoystickInfo::JoystickInfo(int id)
 
 	// Default haptic effect
 	SDL_HapticEffect effects[NB_EFFECT];
-	for (int i = 0; i < NB_EFFECT; i++)
+	for (int i = 0; i < NB_EFFECT; ++i)
 	{
 		SDL_HapticEffect effect;
 		memset(&effect, 0, sizeof(SDL_HapticEffect)); // 0 is safe default

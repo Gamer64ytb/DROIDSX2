@@ -29,6 +29,7 @@
 class JoystickInfo : public Device
 {
 public:
+	JoystickInfo();
 	JoystickInfo(int id);
 	~JoystickInfo();
 
@@ -58,5 +59,7 @@ private:
 	size_t m_unique_id;
 	std::array<int, MAX_KEYS> m_pad_to_sdl;
 };
+
+extern JoystickInfo* g_haptic_android;
 
 #endif

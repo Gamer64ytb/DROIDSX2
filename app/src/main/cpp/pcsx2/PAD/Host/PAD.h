@@ -45,4 +45,7 @@ namespace PAD
 
 	/// Returns true if the event was consumed by the pad.
 	bool HandleHostInputEvent(const HostKeyEvent& event);
+
+	void SetVibration(bool p_isvalue);
+
 } // namespace PAD

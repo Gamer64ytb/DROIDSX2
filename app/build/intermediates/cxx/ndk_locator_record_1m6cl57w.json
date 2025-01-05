@@ -1,0 +1,11 @@
+{
+  "ndk": "/home/gamer64/Android/Sdk/ndk/26.3.11579264",
+  "revision": {
+    "mMajor": 26,
+    "mMinor": 3,
+    "mMicro": 11579264,
+    "mPreview": 0,
+    "mPrecision": "MICRO",
+    "mPreviewSeparator": " "
+  }
+}

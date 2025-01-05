@@ -1,0 +1,226 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="kr.co.iefriends.pcsx2"
+4    android:installLocation="preferExternal"
+5    android:versionCode="1"
+6    android:versionName="1.0" >
+7
+8    <uses-sdk
+9        android:minSdkVersion="26"
+10        android:targetSdkVersion="34" />
+11
+12    <uses-feature
+12-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:7:5-78
+13        android:glEsVersion="0x00030000"
+13-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:7:19-51
+14        android:required="true" />
+14-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:7:52-75
+15    <uses-feature
+15-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:8:5-95
+16        android:name="android.hardware.screen.landscape"
+16-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:8:19-67
+17        android:required="false" />
+17-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:8:68-92
+18    <uses-feature
+18-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:9:5-90
+19        android:name="android.hardware.touchscreen"
+19-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:9:19-62
+20        android:required="false" />
+20-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:9:63-87
+21    <uses-feature
+21-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:10:5-87
+22        android:name="android.software.leanback"
+22-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:10:19-59
+23        android:required="false" />
+23-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:10:60-84
+24    <uses-feature
+24-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:11:5-86
+25        android:name="android.hardware.gamepad"
+25-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:11:19-58
+26        android:required="false" />
+26-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:11:59-83
+27    <uses-feature
+27-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:12:5-91
+28        android:name="android.hardware.location.gps"
+28-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:12:19-63
+29        android:required="false" />
+29-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:12:64-88
+30    <uses-feature
+30-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:13:5-95
+31        android:name="android.hardware.location.network"
+31-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:13:19-67
+32        android:required="false" />
+32-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:13:68-92
+33    <uses-feature
+33-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:14:5-85
+34        android:name="android.hardware.camera"
+34-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:14:19-57
+35        android:required="false" />
+35-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:14:58-82
+36    <uses-feature
+36-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:15:5-95
+37        android:name="android.hardware.camera.autofocus"
+37-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:15:19-67
+38        android:required="false" />
+38-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:15:68-92
+39
+40    <!-- Allow writing to external storage -->
+41    <uses-permission
+41-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:18:5-20:40
+42        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+42-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:18:22-78
+43        android:maxSdkVersion="32" />
+43-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:19:9-35
+44    <!-- Allow access to the vibrator -->
+45    <uses-permission android:name="android.permission.VIBRATE" />
+45-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:22:5-66
+45-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:22:22-63
+46    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+46-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:24:5-76
+46-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:24:22-73
+47    <uses-permission android:name="archos.permission.FULLSCREEN.FULL" />
+47-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:25:5-73
+47-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:25:22-70
+48
+49    <supports-screens
+49-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:27:5-31:40
+50        android:largeScreens="true"
+50-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:28:9-36
+51        android:normalScreens="true"
+51-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:29:9-37
+52        android:smallScreens="true"
+52-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:30:9-36
+53        android:xlargeScreens="true" />
+53-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:31:9-37
+54
+55    <permission
+55-->[androidx.core:core:1.13.0] /home/gamer64/.gradle/caches/8.9/transforms/30753a84859c6e8e63704c153aeee7aa/transformed/core-1.13.0/AndroidManifest.xml:22:5-24:47
+56        android:name="kr.co.iefriends.pcsx2.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+56-->[androidx.core:core:1.13.0] /home/gamer64/.gradle/caches/8.9/transforms/30753a84859c6e8e63704c153aeee7aa/transformed/core-1.13.0/AndroidManifest.xml:23:9-81
+57        android:protectionLevel="signature" />
+57-->[androidx.core:core:1.13.0] /home/gamer64/.gradle/caches/8.9/transforms/30753a84859c6e8e63704c153aeee7aa/transformed/core-1.13.0/AndroidManifest.xml:24:9-44
+58
+59    <uses-permission android:name="kr.co.iefriends.pcsx2.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+59-->[androidx.core:core:1.13.0] /home/gamer64/.gradle/caches/8.9/transforms/30753a84859c6e8e63704c153aeee7aa/transformed/core-1.13.0/AndroidManifest.xml:26:5-97
+59-->[androidx.core:core:1.13.0] /home/gamer64/.gradle/caches/8.9/transforms/30753a84859c6e8e63704c153aeee7aa/transformed/core-1.13.0/AndroidManifest.xml:26:22-94
+60
+61    <application
+61-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:33:5-57:19
+62        android:allowBackup="true"
+62-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:34:9-35
+63        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+63-->[androidx.core:core:1.13.0] /home/gamer64/.gradle/caches/8.9/transforms/30753a84859c6e8e63704c153aeee7aa/transformed/core-1.13.0/AndroidManifest.xml:28:18-86
+64        android:dataExtractionRules="@xml/data_extraction_rules"
+64-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:35:9-65
+65        android:extractNativeLibs="true"
+66        android:fullBackupContent="@xml/backup_rules"
+66-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:36:9-54
+67        android:icon="@mipmap/ic_launcher"
+67-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:37:9-43
+68        android:label="@string/app_name"
+68-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:38:9-41
+69        android:resizeableActivity="false"
+69-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:41:9-43
+70        android:roundIcon="@mipmap/ic_launcher_round"
+70-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:39:9-54
+71        android:supportsRtl="false"
+71-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:40:9-36
+72        android:theme="@style/Theme.PCSX2" >
+72-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:42:9-43
+73        <meta-data
+73-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:45:9-76
+74            android:name="android.max_aspect"
+74-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:45:20-53
+75            android:value="2.4" />
+75-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:45:54-73
+76
+77        <activity
+77-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:47:9-56:20
+78            android:name="kr.co.iefriends.pcsx2.MainActivity"
+78-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:48:13-41
+79            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+79-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:50:13-122
+80            android:exported="true"
+80-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:51:13-36
+81            android:screenOrientation="sensorLandscape" >
+81-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:49:13-56
+82            <intent-filter>
+82-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:52:13-55:29
+83                <action android:name="android.intent.action.MAIN" />
+83-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:53:17-69
+83-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:53:25-66
+84
+85                <category android:name="android.intent.category.LAUNCHER" />
+85-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:54:17-77
+85-->/home/gamer64/Documentos/GitHub/DroidSX2/app/src/main/AndroidManifest.xml:54:27-74
+86            </intent-filter>
+87        </activity>
+88
+89        <provider
+89-->[androidx.emoji2:emoji2:1.3.0] /home/gamer64/.gradle/caches/8.9/transforms/67b6a4ddf999be6f885ee50281a73974/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+90            android:name="androidx.startup.InitializationProvider"
+90-->[androidx.emoji2:emoji2:1.3.0] /home/gamer64/.gradle/caches/8.9/transforms/67b6a4ddf999be6f885ee50281a73974/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+91            android:authorities="kr.co.iefriends.pcsx2.androidx-startup"
+91-->[androidx.emoji2:emoji2:1.3.0] /home/gamer64/.gradle/caches/8.9/transforms/67b6a4ddf999be6f885ee50281a73974/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+92            android:exported="false" >
+92-->[androidx.emoji2:emoji2:1.3.0] /home/gamer64/.gradle/caches/8.9/transforms/67b6a4ddf999be6f885ee50281a73974/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+93            <meta-data
+93-->[androidx.emoji2:emoji2:1.3.0] /home/gamer64/.gradle/caches/8.9/transforms/67b6a4ddf999be6f885ee50281a73974/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+94                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+94-->[androidx.emoji2:emoji2:1.3.0] /home/gamer64/.gradle/caches/8.9/transforms/67b6a4ddf999be6f885ee50281a73974/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+95                android:value="androidx.startup" />
+95-->[androidx.emoji2:emoji2:1.3.0] /home/gamer64/.gradle/caches/8.9/transforms/67b6a4ddf999be6f885ee50281a73974/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+96            <meta-data
+96-->[androidx.lifecycle:lifecycle-process:2.6.2] /home/gamer64/.gradle/caches/8.9/transforms/925e7994ec9aa3ddda2ed47cb579af11/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:29:13-31:52
+97                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+97-->[androidx.lifecycle:lifecycle-process:2.6.2] /home/gamer64/.gradle/caches/8.9/transforms/925e7994ec9aa3ddda2ed47cb579af11/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:30:17-78
+98                android:value="androidx.startup" />
+98-->[androidx.lifecycle:lifecycle-process:2.6.2] /home/gamer64/.gradle/caches/8.9/transforms/925e7994ec9aa3ddda2ed47cb579af11/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:31:17-49
+99            <meta-data
+99-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
+100                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+100-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
+101                android:value="androidx.startup" />
+101-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
+102        </provider>
+103
+104        <receiver
+104-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
+105            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+105-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
+106            android:directBootAware="false"
+106-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
+107            android:enabled="true"
+107-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
+108            android:exported="true"
+108-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
+109            android:permission="android.permission.DUMP" >
+109-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
+110            <intent-filter>
+110-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
+111                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+111-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
+111-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
+112            </intent-filter>
+113            <intent-filter>
+113-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
+114                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+114-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
+114-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
+115            </intent-filter>
+116            <intent-filter>
+116-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
+117                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+117-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
+117-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
+118            </intent-filter>
+119            <intent-filter>
+119-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
+120                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+120-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
+120-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gamer64/.gradle/caches/8.9/transforms/ca9287f628400b03d7d8610e429907c2/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
+121            </intent-filter>
+122        </receiver>
+123    </application>
+124
+125</manifest>

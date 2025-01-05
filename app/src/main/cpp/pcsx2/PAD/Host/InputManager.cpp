@@ -37,7 +37,7 @@ void PollForJoystickInput(int cpad)
 
 	gamePad->UpdateDeviceState();
 
-	for (u32 i = 0; i < MAX_KEYS; i++)
+	for (u32 i = 0; i < MAX_KEYS; ++i)
 	{
 		s32 value = gamePad->GetInput((gamePadValues)i);
 		if (value != 0)
@@ -50,7 +50,7 @@ void PollForJoystickInput(int cpad)
 void InputDeviceManager::Update()
 {
 	// Get joystick state + Commit
-	for (u32 cpad = 0; cpad < GAMEPAD_NUMBER; cpad++)
+	for (u32 cpad = 0; cpad < GAMEPAD_NUMBER; ++cpad)
 	{
 		g_key_status.joystick_state_acces(cpad);
 

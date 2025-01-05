@@ -1,0 +1,9 @@
+/home/gamer64/Android/Sdk/cmake/3.22.1/bin/ninja \
+  -C \
+  /home/gamer64/Documentos/GitHub/DroidSX2/app/.cxx/Release/6n1b75dw/arm64-v8a \
+  PCSX2 \
+  SDL2 \
+  swizzle_test_neon \
+  yaml-cpp-parse \
+  yaml-cpp-read \
+  yaml-cpp-sandbox

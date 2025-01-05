@@ -20,14 +20,14 @@
 
 void KeyStatus::Init()
 {
-	for (u32 pad = 0; pad < GAMEPAD_NUMBER; pad++)
+	for (u32 pad = 0; pad < GAMEPAD_NUMBER; ++pad)
 	{
 		m_button[pad] = 0xFFFF;
 		m_internal_button_kbd[pad] = 0xFFFF;
 		m_internal_button_joy[pad] = 0xFFFF;
 		m_state_acces[pad] = false;
 
-		for (u32 index = 0; index < MAX_KEYS; index++)
+		for (u32 index = 0; index < MAX_KEYS; ++index)
 		{
 			m_button_pressure[pad][index] = 0xFF;
 			m_internal_button_pressure[pad][index] = 0xFF;
@@ -53,18 +53,20 @@ void KeyStatus::press(u32 pad, u32 index, s32 value)
 	if (!IsAnalogKey(index))
 	{
 		m_internal_button_pressure[pad][index] = value;
-		if (m_state_acces[pad])
+		if (m_state_acces[pad]) {
 			clear_bit(m_internal_button_kbd[pad], index);
-		else
+		} else {
 			clear_bit(m_internal_button_joy[pad], index);
+		}
 	}
 	else
 	{
 		// clamp value
-		if (value > MAX_ANALOG_VALUE)
+		if (value > MAX_ANALOG_VALUE) {
 			value = MAX_ANALOG_VALUE;
-		else if (value < -MAX_ANALOG_VALUE)
+		} else if (value < -MAX_ANALOG_VALUE) {
 			value = -MAX_ANALOG_VALUE;
+		}
 
 		//                          Left -> -- -> Right
 		// Value range :        FFFF8002 -> 0  -> 7FFE
@@ -72,10 +74,11 @@ void KeyStatus::press(u32 pad, u32 index, s32 value)
 		// Normal mode : expect value 0  -> 80 -> FF
 		// Reverse mode: expect value FF -> 7F -> 0
 		u8 force = (value / 256);
-		if (analog_is_reversed(pad, index))
+		if (analog_is_reversed(pad, index)) {
 			analog_set(pad, index, m_analog_released_val - force);
-		else
+		} else {
 			analog_set(pad, index, m_analog_released_val + force);
+		}
 	}
 }
 
@@ -83,10 +86,11 @@ void KeyStatus::release(u32 pad, u32 index)
 {
 	if (!IsAnalogKey(index))
 	{
-		if (m_state_acces[pad])
+		if (m_state_acces[pad]) {
 			set_bit(m_internal_button_kbd[pad], index);
-		else
+		} else {
 			set_bit(m_internal_button_joy[pad], index);
+		}
 	}
 	else
 	{
@@ -102,10 +106,11 @@ u16 KeyStatus::get(u32 pad)
 void KeyStatus::analog_set(u32 pad, u32 index, u8 value)
 {
 	PADAnalog* m_internal_analog_ref;
-	if (m_state_acces[pad])
+	if (m_state_acces[pad]) {
 		m_internal_analog_ref = &m_internal_analog_kbd[pad];
-	else
+	} else {
 		m_internal_analog_ref = &m_internal_analog_joy[pad];
+	}
 
 	switch (index)
 	{
@@ -186,19 +191,20 @@ u8 KeyStatus::get(u32 pad, u32 index)
 
 u8 KeyStatus::analog_merge(u8 kbd, u8 joy)
 {
-	if (kbd != m_analog_released_val)
+	if (kbd != m_analog_released_val) {
 		return kbd;
-	else
+	} else {
 		return joy;
+	}
 }
 
 void KeyStatus::commit_status(u32 pad)
 {
 	m_button[pad] = m_internal_button_kbd[pad] & m_internal_button_joy[pad];
 
-	for (u32 index = 0; index < MAX_KEYS; index++)
+	for (u32 index = 0; index < MAX_KEYS; ++index) {
 		m_button_pressure[pad][index] = m_internal_button_pressure[pad][index];
-
+	}
 	m_analog[pad].lx = analog_merge(m_internal_analog_kbd[pad].lx, m_internal_analog_joy[pad].lx);
 	m_analog[pad].ly = analog_merge(m_internal_analog_kbd[pad].ly, m_internal_analog_joy[pad].ly);
 	m_analog[pad].rx = analog_merge(m_internal_analog_kbd[pad].rx, m_internal_analog_joy[pad].rx);

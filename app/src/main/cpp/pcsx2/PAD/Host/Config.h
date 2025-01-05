@@ -49,7 +49,7 @@ public:
 		packed_options = 0;
 		ff_intensity = 0x7FFF; // set it at max value by default
 		sensibility = 100;
-		for (u32 pad = 0; pad < GAMEPAD_NUMBER; pad++)
+		for (u32 pad = 0; pad < GAMEPAD_NUMBER; ++pad)
 		{
 			keysym_map[pad].clear();
 		}
@@ -124,8 +124,10 @@ static int get_keyboard_key(u32 pad, u32 keysym)
 	// You must use find instead of []
 	// [] will create an element if the key does not exist and return 0
 	std::map<u32, int>::iterator it = g_conf.keysym_map[pad].find(keysym);
-	if (it != g_conf.keysym_map[pad].end())
+	if (it != g_conf.keysym_map[pad].end()) {
 		return it->second;
-	else
+	}
+	else {
 		return -1;
+	}
 }

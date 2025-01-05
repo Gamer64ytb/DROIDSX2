@@ -50,7 +50,11 @@ bool FlatFileReader::Open(std::string fileName)
 			return false;
 	}
 
-	m_fd = FileSystem::OpenFDFile(m_filename.c_str(), O_RDONLY, 0);
+    if (m_filename.rfind("content://", 0) == 0) {
+        m_fd = FileSystem::OpenFDFileContent(m_filename.c_str());
+    } else {
+        m_fd = FileSystem::OpenFDFile(m_filename.c_str(), O_RDONLY, 0);
+    }
 
 	return (m_fd != -1);
 }
